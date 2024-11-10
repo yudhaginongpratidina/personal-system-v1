@@ -38,3 +38,30 @@ export const Register = async (req, res) => {
         console.log(error);
     }
 }
+
+
+export const Login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const account = await prismaClient.account.findFirst({
+            where: { email: email },
+            select: { id: true, email: true, password: true, role: true }
+        })
+
+        if (!account) {
+            return res.status(404).json({ message: "email not found" });
+        }
+
+        if (password !== account.password) {
+            return res.status(401).json({ message: "wrong email or password" });
+        }
+
+        return res.status(200).json({
+            message: "Login Success",
+            data: account
+        })
+    } catch (error) {
+        console.log(error);    
+    }
+}
