@@ -84,5 +84,45 @@ describe("POST /register", () => {
         expect(response.body.data).toBeDefined();
         expect(response.body.message).toBe("Created");
     })
+});
 
+describe("POST /login", () => {
+    beforeEach(async () => {
+        await AuthTest.create();
+    })
+
+    afterEach(async () => {
+        await AuthTest.delete();
+    })
+
+    it("should reject login, because email not found", async () => {
+        const response = await request(BASE_URL).post("/login").send({
+            email: "user4@test.com",
+            password: "password4"
+        });
+
+        expect(response.status).toBe(404);
+        expect(response.body.message).toBe("email not found");
+    })
+
+    it("should reject login, because password not match", async () => {
+        const response = await request(BASE_URL).post("/login").send({
+            email: "user1@test.com",
+            password: "password4"
+        });
+
+        expect(response.status).toBe(401);
+        expect(response.body.message).toBe("wrong email or password");
+    })
+
+    it("should be able to login", async () => {
+        const response = await request(BASE_URL).post("/login").send({
+            email: "user1@test.com",
+            password: "password1"
+        });
+
+        expect(response.status).toBe(200);
+        expect(response.body.data).toBeDefined();
+        expect(response.body.message).toBe("Login Success");
+    })
 });
