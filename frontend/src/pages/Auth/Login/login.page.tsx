@@ -6,7 +6,7 @@ export default  function LoginPage() {
         <div className="w-full min-h-screen p-4 font-poppins flex justify-center items-center bg-gray-800">
             <div className="w-full max-w-md p-4 bg-white">
                 <div className="w-full mb-6">
-                    <h1 className="text-xl font-bold">LOGIN</h1>
+                    <h1 className="text-xl font-bold">LOGIN </h1>
                     <p className="font-medium">Enter your details for login</p>
                 </div>
                 <FormLogin/>

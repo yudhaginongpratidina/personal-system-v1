@@ -6,17 +6,39 @@ import { loginFormSchema, LoginFormSchema } from "./login.type"
 export default function FormLogin() {
 
     const [showPassword, setShowPassword] = useState<boolean>(false)
+    const [message, setMessage] = useState<string>("")
 
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormSchema>({
         resolver: zodResolver(loginFormSchema),
     })
 
     const onSubmit = async (values: LoginFormSchema) => {
-        console.table(values)
+        const { email, password } = values
+        try {
+            const response = await fetch(`${import.meta.env.VITE_RESTAPI_PERSONAL_SYSTEM_V1}/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+            })
+            const data = await response.json()
+            setMessage(data.message)
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4 mb-6">
+            { message && (
+                <div className="w-full font-medium p-2 bg-gray-800 text-red-500">
+                    { message }
+                </div>
+            )}
             <div className="flex flex-col gap-1.5">
                 <label htmlFor="email" className="text-sm font-medium">E-Mail</label>
                 <input 

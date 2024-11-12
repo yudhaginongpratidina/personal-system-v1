@@ -1,22 +1,53 @@
+import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { registerFormSchema, RegisterFormSchema } from "./register.type"
 
 export default function FormRegister() {
+    const navigate = useNavigate()
 
     const [showPassword, setShowPassword] = useState<boolean>(false)
+    const [message, setMessage] = useState<string>("")
 
     const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormSchema>({
         resolver: zodResolver(registerFormSchema),
     })
 
     const onSubmit = async (values: RegisterFormSchema) => {
-        console.table(values)
+        const { username, email, password, confirmPassword } = values
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_RESTAPI_PERSONAL_SYSTEM_V1}/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username : username,
+                    email: email,
+                    password: password,
+                    confirmPassword: confirmPassword
+                }),
+            })
+            const data = await response.json()
+            setMessage(data.message)
+
+            if (data.message === "Created") {
+                navigate("/login")
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4 mb-6">
+            { message && (
+                <div className="w-full font-medium p-2 bg-gray-800 text-red-500">
+                    { message }
+                </div>
+            )}
             <div className="flex flex-col gap-1.5">
                 <label htmlFor="username" className="text-sm font-medium">Username</label>
                 <input
