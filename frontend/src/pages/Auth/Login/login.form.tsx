@@ -35,7 +35,7 @@ export default function FormLogin() {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4 mb-6">
             { message && (
-                <div className="w-full font-medium p-2 bg-gray-800 text-red-500">
+                <div className="w-full font-medium p-2 rounded-md bg-gray-800 text-red-500">
                     { message }
                 </div>
             )}
@@ -46,7 +46,7 @@ export default function FormLogin() {
                     placeholder="Email" 
                     autoComplete="off" 
                     autoFocus 
-                    className={`w-full p-2 border outline-none ${errors.email ? "border-red-500" : ""}`} 
+                    className={`w-full p-2 border outline-none rounded-md ${errors.email ? "border-red-500" : ""}`} 
                     {...register("email")} 
                 />
                 {errors.email && <p className="text-sm font-medium text-red-500">{errors.email.message}</p>}
@@ -58,7 +58,7 @@ export default function FormLogin() {
                         type={showPassword ? "text" : "password"}
                         placeholder={showPassword ? "Password" : "********"} 
                         autoComplete="off"
-                        className={`w-full p-2 border outline-none ${errors.password ? "border-red-500" : ""}`}  
+                        className={`w-full p-2 border outline-none rounded-md ${errors.password ? "border-red-500" : ""}`}  
                         {...register("password")}
                     />
                     <button className="absolute top-1/2 right-2 -translate-y-1/2 text-sm" onClick={() => setShowPassword(!showPassword)} type="button">
@@ -67,7 +67,7 @@ export default function FormLogin() {
                 </div>
                 {errors.password && <p className="text-sm font-medium text-red-500">{errors.password.message}</p>}
             </div>
-            <button type="submit" className="w-full p-2 bg-gray-800 hover:bg-gray-700 text-white">Login</button>
+            <button type="submit" className="w-full p-2 rounded-md bg-gray-800 hover:bg-gray-700 text-white">Login</button>
         </form>
     )
 }
