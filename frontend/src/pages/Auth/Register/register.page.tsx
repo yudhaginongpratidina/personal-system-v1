@@ -3,8 +3,8 @@ import FormRegister from "./register.form"
 
 export default function RegisterPage(){
     return (
-        <div className="w-full min-h-screen p-4 font-poppins flex justify-center items-center bg-gray-800">
-            <div className="w-full max-w-md p-4 rounded-md bg-white">
+        <div className="w-full min-h-screen p-4 font-poppins flex justify-center items-center bg-white">
+            <div className="w-full max-w-md p-4 border border-y-2 border-y-black shadow-sm">
                 <div className="w-full mb-6">
                     <h1 className="text-xl font-bold">REGISTER</h1>
                     <p className="font-medium">Enter your details for register</p>
